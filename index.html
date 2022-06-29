@@ -23,7 +23,7 @@
 
             <div class="favorites">
                 <transition-group name="list">
-                    <div class="favorite" v-for="fav in allFavorites">
+                    <div class="favorite" v-for="fav in allFavorites" :key="">
                         <a @click.prevent="showFavorites(fav)" href="">
                             <img v-bind:src="fav.picture.data.url" class="avatar">
                         </a>
@@ -44,10 +44,9 @@
                     </form>
                 </div>
 
-                <transition name="fade">
-                
-                    <div class="flex flex-wrap -m-4 justify-center h-screen items-center text-center">
-                        <div class="p-4 sm:w-1/2 lg:w1/3 mx-auto justify-center items-center">
+                <div class="flex flex-wrap -m-4 justify-center h-screen items-center text-center">
+                    <div class="p-4 sm:w-1/2 lg:w1/3 mx-auto justify-center items-center">
+                        <Transition name="fade">
                             <div v-if="result" class="h-18 w-80 border-2 border-purple-300 border-opacity-60 rounded-lg overflow-hidden justify-center items-center" style="margin-left: 140px; margin-top: 10px; margin-bottom: 100px;">
                                 <img v-bind:src="result.picture.data.url" class="lg:h-72 md:h-18 w-full object-cover object-center">
                                 <div class="p-6 hover:bg-indigo-300 hover:text-black transition duration-300 ease-in">
@@ -56,14 +55,13 @@
                                     <a v-else="" href="" v-on:click.prevent="addFavs">Añadir favorito</a>
                                 </div>
                             </div>
+                        </Transition>
 
-                            <p v-else>Esperando una respuesta...</p>
+                        <p v-else>Esperando una respuesta...</p>
 
-                            <p v-if="error">Error encontrando un usuario</p>
-                        </div>
+                        <p v-if="error">Error encontrando un usuario</p>
                     </div>
-
-                </transition>
+                </div>
 
             </div>
 
