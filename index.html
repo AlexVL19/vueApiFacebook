@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <title>Búsqueda de usuarios en Facebook</title>
+
+</head>
+<body class="h-screen bg-purple-200 justify-center items-center">
+    
+    <div id="app" class="justify-center items-center">
+
+
+        <section class="h-full flex items-center text-gray-600 justify-center">
+
+            <div class="favorites">
+                <transition-group name="list">
+                    <div class="favorite" v-for="fav in allFavorites">
+                        <a @click.prevent="showFavorites(fav)" href="">
+                            <img v-bind:src="fav.picture.data.url" class="avatar">
+                        </a>
+                    </div>
+                </transition-group>
+            </div>
+
+            <div class="container px-10 py-12 mx-auto justify-center items-center">
+                
+                <div class="text-center mb-8 mt-8">
+                    <h5 class="text-4xl md:text-6md text-gray-700 font-semibold">Búsqueda de usuarios en API de Facebook</h5>
+                </div>
+
+                <div class="w-full max-w-xs items-center justify-center" style="margin-left: 350px;">
+                    <form class="search" v-on:submit.prevent="buscar" method="get">
+                        <input v-model="search" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text"required placeholder="Buscar usuarios por ID...">
+                        <input type="submit" class="shadow bg-indigo-400 hover:bg-indigo-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ml-2" value="Buscar">
+                    </form>
+                </div>
+
+                <transition name="fade">
+                
+                    <div class="flex flex-wrap -m-4 justify-center h-screen items-center text-center">
+                        <div class="p-4 sm:w-1/2 lg:w1/3 mx-auto justify-center items-center">
+                            <div v-if="result" class="h-18 w-80 border-2 border-purple-300 border-opacity-60 rounded-lg overflow-hidden justify-center items-center" style="margin-left: 140px; margin-top: 10px; margin-bottom: 100px;">
+                                <img v-bind:src="result.picture.data.url" class="lg:h-72 md:h-18 w-full object-cover object-center">
+                                <div class="p-6 hover:bg-indigo-300 hover:text-black transition duration-300 ease-in">
+                                    <h2 class="text-2xl font-semibold mb-3">{{result.name}}</h2>
+                                    <a v-if="isFavorite" href="" v-on:click.prevent="removeFavs">Eliminar favorito</a>
+                                    <a v-else="" href="" v-on:click.prevent="addFavs">Añadir favorito</a>
+                                </div>
+                            </div>
+
+                            <p v-else>Esperando una respuesta...</p>
+
+                            <p v-if="error">Error encontrando un usuario</p>
+                        </div>
+                    </div>
+
+                </transition>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const mensaje = app.mount('#app')
+    </script>
+</body>
+</html>
